@@ -1,0 +1,36 @@
+	public void treinamentoOffline(int numMaximoEpocas) {
+		normalizarValor(-4.0, 6.0);
+		double u = 0.0;
+		double EqAtual=0.0, EqAnterior=0.0;//, Eqaux=0.0;
+		GerarArquivo arq = new GerarArquivo();
+		ArrayList<Double> epoca = new ArrayList<Double>();
+		ArrayList<Double> erro = new ArrayList<Double>();
+		//double erros[] = new double[numeroDeAmostras];
+		//u = new double[numeroDeAmostras];
+		//inicializa(0.0, u);
+		//inicializaPesos(0.0);
+		inicializaPesosAleatorio();
+		//normalizarValor(-2.0, 13.0);
+		epocas = 0;
+		do{
+			EqAnterior = ErroQuadratico();
+			//System.out.println("EqmAnterior : "+EqAnterior);
+			erros.clear();
+			for (int amostra = 0; amostra < numeroDeAmostras; amostra++) {
+				u = somatorio(amostra);
+				//erros[amostra] = saidaDesejada[amostra] - u;
+				erros.add(saidaDesejada[amostra] - u);
+				//atualizaPesosOffline(u, amostra);
+				//atualizaPesos(u, amostra);				
+			}
+			epocas++;
+			atualizaPesosOffline(u, amostra, somatorioErros());
+			EqAtual = ErroQuadratico();	
+			epoca.add((double)epocas);
+			erro.add(EqAtual);
+//			System.out.println("EqmAtual : "+EqAtual);
+			//if (epocas == numMaximoEpocas) break;
+		}while(Math.abs(EqAtual - EqAnterior) > precisaoRequerida);
+//		arq.gerarCsvErro("Treinamento4 - teste2.csv", epoca, erro);
+		pesosTreinado = w;
+	}
